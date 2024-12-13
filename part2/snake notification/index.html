@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/78d3c80010.js" crossorigin="anonymous"></script>
+    <style>
+        body{
+            background-color: black;
+
+        }
+        *{
+            padding: 0;
+            margin: 0;
+
+        }
+        .buttons button{
+            padding: 5px;
+            
+        }
+        .toastDiv{
+            position: absolute;
+            right: 30px;
+            bottom: 30px;
+        
+            display: flex;
+            gap: 20px;
+            flex-direction: column;
+            overflow: hidden;
+            align-items: flex-end;
+            justify-content: center;
+
+        }
+        .toast{
+            display: flex;
+            background-color: white;
+            padding: 15px 30px;
+            position: relative;
+            width: 300px;
+            transform: translateX(100%);
+            animation: ta 0.5s ease forwards, try1 1s ease 5s;
+            /* animation-name: ta;
+            animation-duration: 0.5s;
+            animation-timing-function: ease;
+            animation-fill-mode: forwards; */
+
+            
+            
+
+        }
+        @keyframes try1{
+            20%{
+                transform: translateX(-10%);
+            }
+            100%{
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes ta {
+            100%{
+                transform: translateX(0%);
+            }
+        }
+
+        .toast .fa-circle-check{
+            margin: 0 20px;
+            font-size: 28px;
+            color: rgb(27, 204, 11);
+        }
+        .redCol{
+            margin: 0 20px;
+            font-size: 28px;
+            color: red;
+        }
+        .yellowColor{
+            margin: 0 20px;
+            font-size: 28px;
+            color: yellow;
+        }
+        .toast::after{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: green;
+            animation-name: anim ;
+            animation-duration: 5s;
+        animation-timing-function: ease; 
+        animation-fill-mode: forwards;           
+        }
+        @keyframes anim {
+            100%{
+                width: 0;
+            }
+        }
+        .toast.error::after{
+            background-color: red;
+        }
+        .toast.again::after{
+            background-color: yellow;
+        }
+        .close{
+            position: absolute;
+            right: 0;
+            top: 0;
+            /* padding: 20px; */
+            border-radius: 50px;
+            border: none;
+            height: 10px;
+            /* width: 10px; */
+
+
+        }
+        .closeButton{
+            background-color: transparent;
+            padding: 0px;
+            font-size: 16px;
+            color: gray;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="buttons">
+        <button onclick="show(success)">Success </button>
+        <button onclick="show(faild)">Failed </button>
+        <button onclick="show(tryAgain)">Try again </button>
+
+        <div class="toastDiv">
+
+        </div>
+
+    </div>
+</body>
+    <script>
+        let success = '<i class="fa-solid fa-circle-check"></i>Your payment is Successfull!!<button class="close"><i class="fa-solid fa-xmark closeButton"></i></button>';
+        let faild = '<i class="fa-solid fa-circle-xmark redCol"></i>Your payment is declined<button class="close"><i class="fa-solid fa-xmark closeButton"></i></button></button>';
+        let tryAgain = '<i class="fa-solid fa-circle-exclamation yellowColor"></i>Please try agiang later<button class="close"><i class="fa-solid fa-xmark closeButton"></i></button></button>';
+        const toAppendDiv = document.querySelector('.toastDiv');
+        function show(msg){
+            const toast = document.createElement('div');
+            console.log("Added");
+            toast.classList.add('toast');
+            toast.innerHTML = msg;
+            toAppendDiv.appendChild(toast);
+
+            if(msg.includes('declined')){
+                toast.classList.add( 'error');
+            }
+            if(msg.includes('later')){
+                toast.classList.add( 'again');
+            }
+
+            setTimeout(()=>{
+                toast.remove();
+            },6000);
+
+            let closePro = document.querySelector('.close');
+            closePro.addEventListener('click',()=>{
+                toast.remove();
+            });
+        }
+    </script>
+</html>

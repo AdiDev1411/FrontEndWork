@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: black;
+        }
+        .main{
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            background: linear-gradient(90deg,rgb(38, 182, 218),rgb(1, 81, 209));
+            margin: 100px auto 0px;
+            width: 470px;
+            padding: 40px 40px;
+            border-radius: 10px;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0px 0px 30px rgb(38, 182, 218);
+
+        }
+        .searchbar{
+            /* background-color: aliceblue; */
+            position: relative;
+            display: flex;
+            width: 100%;
+            height: 40px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        input{
+            border-radius: 50px;
+            border:none;
+            outline: none;
+            overlay: none;
+            display: flex;
+            flex: 1;
+            height: 35px;
+            padding-left: 30px;
+            color: gray;
+            font-size: 18px;
+
+        }
+        .searchbar img{
+            width: 16px;
+            /* height: 25px; */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+        }
+        .searchbar button{
+            position: absolute;
+            right: 5px;
+            width: 25px;
+            height: 100%;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+        }
+        h1{
+            margin: 0px;
+        }
+        .details{
+            display: flex;
+            /* background-color: lightblue; */
+            width: 100%;
+            justify-content: space-around;
+            
+        }
+        .humidity ,.wind{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+        }
+        .humidity img ,.wind img{
+            width: 35px;
+            height: 35px;
+            /* background-repeat: no-repeat; */
+        }
+        .wind text{
+            display: flex;
+            margin: 0px;
+            
+        }
+        .text p{
+            margin: 0px;
+            font-size:28px;
+            font-weight: bold;
+        }
+        .text span{
+            font-size: 15px;
+            margin-top: -20px;
+        }
+        .weather{
+            display: flex;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+            color: white;
+        }
+        .weather{
+            display: none;
+            
+        }
+        .error{
+            color: White;
+            font-weight: bold;
+            font-size: 18px;
+            display: none;
+        }
+        .error h1{
+            padding-top: 30px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">
+
+        <div class="searchbar">
+    
+            <input class="Cname" type="text" class="searchBox" placeholder="Ente City name" spellcheck="false" >
+            <button onclick="CheckWeather()">
+
+                <img src="weather-app-img/images/search.png" alt=""> 
+            </button>
+        </div>
+        <div class="error">
+            <h1>Invalid City Name</h1>
+        </div>
+        <div class="weather">
+            <img src="weather-app-img/images/rain.png" alt="" class="weathericon">
+            <h1 class="city">Delhi</h1>
+            <h1 class="temp">22°C</h1>
+            <div class="details">               
+                <div class="humidity">
+                    <img src="weather-app-img/images/humidity.png" alt="">
+                    <div class="text">
+
+                        <p class="hlevel">50%</p>
+                        <span>Humidity level</span>
+                    </div>
+                </div>              
+                <div class="wind">
+                    <img src="weather-app-img/images/wind.png" alt="">
+                    <div class="text">
+                        <p class="wspeed">15 km/h</p>
+                        <span>Wind Speed</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const apiid="d7e67ea9041273943a179b896076c642";
+        const apiUrl="https://api.openweathermap.org/data/2.5/weather?units=metric";
+
+        // function city_name(){
+
+        // }
+
+        async function CheckWeather() {
+
+            let cityName = document.querySelector(".Cname").value;
+
+            console.log(cityName);
+            const responce = await fetch(apiUrl + `&appid=${apiid}&q=${cityName}`);
+            if(responce.status == 404){
+                document.querySelector(".error").style.display= "block";
+                document.querySelector(".weather").style.display ="none";
+            }
+            
+            var data = await responce.json();
+            console.log(responce.status);
+
+            document.querySelector(".city").innerHTML = data.name;
+            document.querySelector(".temp").innerHTML = data.main.temp + `°C`;
+            document.querySelector(".hlevel").innerHTML = data.main.humidity + `%`;
+            document.querySelector(".wspeed").innerHTML = data.wind.speed + ` Km/h`;
+
+            document.querySelector(".weather").style.display ="flex";
+
+            const weatherimg =   document.querySelector(".weathericon");
+            console.log(data.weather[0].main);
+
+           if(data.weather[0].main=="Clouds"){
+            weatherimg.src = "weather-app-img/images/clouds.png";
+            }
+            else if(data.weather[0].main=="Rain"){
+                weatherimg.src = "weather-app-img/images/rain.png";
+            }
+            else if(data.weather[0].main=="Clear"){
+                weatherimg.src = "weather-app-img/images/clear.png";
+            }
+            else if(data.weather[0].main=="Drizzle"){
+                weatherimg.src = "weather-app-img/images/drizzle.png";
+            }
+            else if(data.weather[0].main=="Mist"){
+                weatherimg.src = "weather-app-img/images/mist.png";
+            }
+            else if(data.weather[0].main=="Snow"){
+                weatherimg.src = "weather-app-img/images/snow.png";
+            }
+
+            document.querySelector(".error").style.display= "none";
+        }
+
+        
+    </script>
+</body>
+</html>

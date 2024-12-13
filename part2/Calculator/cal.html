@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        button{
+            cursor: pointer;
+        }
+        .num{
+            color: white;
+            background-color: black;
+            border: none;
+            border-radius: 50px;
+            padding: 5px 10px;
+            text-align: center;
+            height: 50px;
+            width: 50px;
+            font-size: 20px;
+            font-weight: bold;
+
+        }
+        .cal{
+            background-color: rgb(142, 134, 134);
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap:5px;
+            /* width: 500px; */
+        }
+        .calculator{
+            background-color: rgb(142, 134, 134);
+            width: 220px;
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            border-radius: 9px;
+        }
+        .sign{
+            background-color: rgb(223, 128, 4);
+        }
+        input{
+            height: 40px;
+            border: none;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            display: flex;
+            text-align: end;
+            justify-content: end;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+
+        <input type="text" readonly class="dis">
+        <div class="cal">
+            <button class="sign num" onclick="ondisplay('+')">+</button>
+            <button class="num" onclick="ondisplay('1')" >1</button>
+            <button class="num" onclick="ondisplay('2')">2</button>
+            <button class="num" onclick="ondisplay('3')">3</button>
+            <button class="sign num" onclick="ondisplay('-')">-</button>
+            <button class="num" onclick="ondisplay('4')">4</button>
+            <button class="num" onclick="ondisplay('5')">5</button>
+            <button class="num" onclick="ondisplay('6')">6</button>
+            <button class="sign num" onclick="ondisplay('*')">*</button>
+            <button class="num" onclick="ondisplay('7')">7</button>
+            <button class="num" onclick="ondisplay('8')">8</button>
+            <button class="num" onclick="ondisplay('9')">9</button>
+            <button class="sign num" onclick="ondisplay('/')">/</button>
+            <button class="num" onclick="ondisplay('.')">.</button>
+            <button class="num" onclick="clearfun()" > C</button>
+            <button class="num" onclick="ans()" >=</button>
+        </div>
+    </div>
+    <script>
+        let string = "";
+        const display = document.querySelector(".dis");     
+        function ondisplay(val){
+        console.log("hi");
+            string +=val;
+            display.value= string;
+        }
+       function clearfun(){
+        string="";
+        display.value= string;
+
+       }
+
+       function ans(){
+        string = "=Ans " + eval(string);
+        display.value=string;
+       }
+    </script>
+    </body>
+    </html>
